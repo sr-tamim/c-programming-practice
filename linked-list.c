@@ -158,6 +158,37 @@ struct Node *isContainCycle(struct Node *head)
     return NULL;
 }
 
+struct Node *mergeSortedLists(struct Node *head1, struct Node *head2)
+{
+    struct Node *dummyNode = getNewNode();
+    struct Node *tail = dummyNode;
+    while (1)
+    {
+        if (head1 == NULL)
+        {
+            tail->next = head2;
+            break;
+        }
+        if (head2 == NULL)
+        {
+            tail->next = head1;
+            break;
+        }
+        if (head1->data <= head2->data)
+        {
+            tail->next = head1;
+            head1 = head1->next;
+        }
+        else
+        {
+            tail->next = head2;
+            head2 = head2->next;
+        }
+        tail = tail->next;
+    }
+    return dummyNode->next;
+}
+
 int main()
 {
     struct Node *head = NULL;
@@ -190,7 +221,7 @@ int main()
     printList(head);
 
     // create a cycle
-    printf("Creating a cycle...\nNode 15 -> Node 10\n");
+    /* printf("Creating a cycle...\nNode 15 -> Node 10\n");
     struct Node *cycleNode = head->next;
     struct Node *temp = head;
     while (temp->next != NULL)
@@ -211,5 +242,23 @@ int main()
     else
     {
         printf("No\n");
-    }
+    } */
+
+    // create new list
+    struct Node *head2 = NULL;
+    insertAtFront(&head2, 2);
+    insertAtEnd(head2, 4);
+    insertAtEnd(head2, 7);
+
+    printf("List 1: ");
+    printList(head);
+    printf("List 2: ");
+    printList(head2);
+
+    // merge the two lists
+    struct Node *mergedList = mergeSortedLists(head, head2);
+    printf("Merged List: ");
+    printList(mergedList);
+
+    return 0;
 }
