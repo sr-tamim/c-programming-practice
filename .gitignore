@@ -1,0 +1,5 @@
+# Ignore all files except .c, .md files
+*
+!*.c
+!*.md
+!.gitignore
