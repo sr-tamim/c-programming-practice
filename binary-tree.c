@@ -114,6 +114,23 @@ int delete_node(node *root, int data)
     return delete_node(root->left, data);
 }
 
+int search_node(node *root, int data)
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+    if (root->data == data)
+    {
+        return 1;
+    }
+    if (root->data < data)
+    {
+        return search_node(root->right, data);
+    }
+    return search_node(root->left, data);
+}
+
 int main()
 {
     node *root = NULL;
@@ -135,8 +152,12 @@ int main()
     printf("Postorder traversal: ");
     postorder_traversal(root);
     printf("\n");
-    delete_node(root, 10);
+    //delete_node(root, 10);
     printf("Inorder traversal after deleting 10: ");
     inorder_traversal(root);
+    printf("\n");
+    printf("Is 7 present in the tree? %s\n", search_node(root, 7) ? "Yes" : "No");
+    printf("Is 10 present in the tree? %s\n", search_node(root, 10) ? "Yes" : "No");
+    printf("\n");
     return 0;
 }
