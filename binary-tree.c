@@ -68,6 +68,52 @@ void postorder_traversal(node *root)
     }
 }
 
+int delete_node(node *root, int data)
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+    if (root->data == data)
+    {
+        if (root->left == NULL && root->right == NULL)
+        {
+            free(root);
+            return 1;
+        }
+        else if (root->left == NULL)
+        {
+            node *temp = root;
+            root = root->right;
+            free(temp);
+            return 1;
+        }
+        else if (root->right == NULL)
+        {
+            node *temp = root;
+            root = root->left;
+            free(temp);
+            return 1;
+        }
+        else
+        {
+            node *temp = root->right;
+            while (temp->left != NULL)
+            {
+                temp = temp->left;
+            }
+            root->data = temp->data;
+            delete_node(root->right, temp->data);
+            return 1;
+        }
+    }
+    if (root->data < data)
+    {
+        return delete_node(root->right, data);
+    }
+    return delete_node(root->left, data);
+}
+
 int main()
 {
     node *root = NULL;
@@ -89,5 +135,8 @@ int main()
     printf("Postorder traversal: ");
     postorder_traversal(root);
     printf("\n");
+    delete_node(root, 10);
+    printf("Inorder traversal after deleting 10: ");
+    inorder_traversal(root);
     return 0;
 }
